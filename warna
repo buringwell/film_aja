@@ -1,0 +1,367 @@
+<!-- Warna 1: bg-gray-800 (#1F2937) - Dark Gray
+Warna 2: bg-gray-700 (#374151) - Medium Dark Gray
+Warna 3: bg-gray-600 (#4B5563) - Softer Dark Gray
+Warna 4: bg-gray-500 (#6B7280) - Muted Dark Gray
+Warna 5: bg-gray-400 (#9CA3AF) - Light Gray
+
+ini data actionnya
+export const NOWPLAY = "NOWPLAY"
+export const  POPULAR = "POPULAR"
+export const TOPRATE = "TOPRATE"
+export const  UPCOOMING = "UPCOMING"
+
+export const LIST = "LIST"
+export const REKOMEN = "REKOMEN"
+
+export const SEARCH = "SEARCH"
+export const FILTER = "FILTER"
+
+export const VIDEO = "VIDEO"
+export const IMAGE = "IMAGE"
+export const GENRE = "GENRE"
+
+
+export const setNowplay = (data) => ({
+	type: NOWPLAY,
+	payload: data,
+});
+
+export const setPopular = (data) => ({
+    type: POPULAR,
+    payload: data,
+});
+
+export const setTopRate = (data) => ({
+    type: TOPRATE,
+    payload: data,
+});
+
+export const setUpcoming = (data) => ({
+    type: UPCOOMING,
+    payload: data,
+});
+
+export const setList = (data) => ({
+    type: LIST,
+    payload: data,
+});
+
+export const setRekomen = (data) => ({
+    type: REKOMEN,
+    payload: data,
+});
+
+export const setSearch = (data) => ({
+    type: SEARCH,
+    payload: data,
+});
+
+export const setFILter = (data) => ({
+    type: FILTER,
+    payload: data,
+});
+
+export const setVideo = (data) => ({
+    type: VIDEO,
+    payload: data,
+});
+
+export const setImage = (data) => ({
+    type: IMAGE,
+    payload: data,
+});
+
+export const setGenre = (data) => ({
+    type: GENRE,
+    payload: data,
+});
+
+
+import {
+IMAGE,
+LIST,
+NOWPLAY,
+POPULAR,
+REKOMEN,
+SEARCH,
+FILTER,
+TOPRATE,
+UPCOOMING,
+VIDEO,
+GENRE,
+} from "../action/alldataAction"
+
+const filmstate ={
+    image:[],
+    list:[],
+    nowplay:[],
+    popular:[],
+    rekomen:[],
+    search:[],
+    toprate:[],
+    upcooming:[],
+    video:[],
+}
+
+
+ini reducernya
+const filmredus = (state = filmstate, action) => {
+	switch (action.type) {
+		case NOWPLAY:
+			return {
+				...state,
+				nowplay: action.payload,
+			};
+		case POPULAR:
+			return {
+				...state,
+				popular: action.payload,
+			};
+		case TOPRATE:
+			return {
+				...state,
+			toprate: action.payload,
+			};
+		case UPCOOMING:
+			return {
+				...state,
+			upcooming: action.payload,
+			};
+		case LIST:
+			return {
+				...state,
+				list: action.payload,
+			};
+		case REKOMEN:
+			return {
+				...state,
+			rekomen: action.payload,
+			};
+		case SEARCH:
+			return {
+				...state,
+				search: action.payload,
+			};
+		case FILTER:
+			return {
+				...state,
+				search: action.payload,
+			};
+		case VIDEO:
+			return {
+				...state,
+			video: action.payload,
+			};
+		case IMAGE:
+			return {
+				...state,
+				image: action.payload,
+			};
+		case GENRE:
+			return {
+				...state,
+				image: action.payload,
+			};
+		default:
+			return state;
+	}
+};
+
+export default filmredus;
+
+ini homenya
+import axios from 'axios'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setImage, setList, setNowplay, setPopular, setTopRate, setUpcoming } from '../../store/action/alldataAction'
+import HomeView from './HomeView'
+
+
+const Home = () => {
+    const dispatch = useDispatch();
+    const playnowfim = useSelector((state)=>state.film.nowplay);
+    const popularr = useSelector((state)=>state.film.popular);
+
+    const playnow = async () =>{
+        const response = await axios.get("https://api.themoviedb.org/3/movie/now_playing",
+            {
+                headers: {
+                    accept: 'application/json',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmN2ZkNmRmYmE1NGE0MzIyMTBhNmVkMTBmNWVmOTUyOSIsIm5iZiI6MTcyODM1ODI5My43Mjk1MDgsInN1YiI6IjY3MDQ5MjAxNWY5NTg5MjQ4OGJmZmMzZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7ftvZlY5B_n9dnuha26yeo8b3wXoqkb4jZ4AOOvRBVo'
+                  }
+            }
+        )
+        const data = await response.data
+        console.log(data)
+        dispatch(setNowplay(response.data.results));
+
+    }
+    
+    const popular = async () =>{
+        const response = await axios.get("https://api.themoviedb.org/3/movie/popular",
+            {
+                mentod: 'GET',
+                headers: {
+                    accept: 'application/json',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmN2ZkNmRmYmE1NGE0MzIyMTBhNmVkMTBmNWVmOTUyOSIsIm5iZiI6MTcyODM1ODI5My43Mjk1MDgsInN1YiI6IjY3MDQ5MjAxNWY5NTg5MjQ4OGJmZmMzZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7ftvZlY5B_n9dnuha26yeo8b3wXoqkb4jZ4AOOvRBVo'
+                  }
+            }
+        )
+        const data = await response.data
+        console.log(data)
+        dispatch(setPopular(response.data.result));
+    }
+    
+    const toprate = async () =>{
+        const response = await axios.get("https://api.themoviedb.org/3/movie/top_rated",
+            {
+                mentod: 'GET',
+                headers: {
+                    accept: 'application/json',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmN2ZkNmRmYmE1NGE0MzIyMTBhNmVkMTBmNWVmOTUyOSIsIm5iZiI6MTcyODM1ODI5My43Mjk1MDgsInN1YiI6IjY3MDQ5MjAxNWY5NTg5MjQ4OGJmZmMzZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7ftvZlY5B_n9dnuha26yeo8b3wXoqkb4jZ4AOOvRBVo'
+                  }
+            }
+        )
+        const data = await response.data
+        console.log(data)
+        dispatch(setTopRate(response.data.result));
+    }
+    
+    const upcooming = async () =>{
+        const response = await axios.get("https://api.themoviedb.org/3/movie/upcoming",
+            {
+                mentod: 'GET',
+                headers: {
+                    accept: 'application/json',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmN2ZkNmRmYmE1NGE0MzIyMTBhNmVkMTBmNWVmOTUyOSIsIm5iZiI6MTcyODM1ODI5My43Mjk1MDgsInN1YiI6IjY3MDQ5MjAxNWY5NTg5MjQ4OGJmZmMzZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7ftvZlY5B_n9dnuha26yeo8b3wXoqkb4jZ4AOOvRBVo'
+                  }
+            }
+        )
+        const data = await response.data
+        console.log(data)
+        dispatch(setUpcoming(response.data.result));
+    }
+    
+
+
+    useEffect (() => {
+        const getdata = async () => {
+          try {
+            await Promise.all([
+              playnow(),
+              popular(),
+              toprate(),
+              upcooming(),    
+            ]);
+          } catch (error) {
+            console.error("Error fetching data: ", error);
+          }
+        };
+        getdata();   
+      }, []);
+
+  return (
+   <HomeView 
+   nowPLay={playnowfim}
+   popular={popularr}
+   />
+  )
+}
+
+export default Home
+
+ini homeviewnya
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+const HomeView = ({ nowPLay,popular}) => {
+  return (
+    <div className="homeview">
+      {/* Thumbnail section */}
+      <div className="relative">
+        <div className="carousel h-[600px] w-full bg-gradient-to-t from-black via-black/50 to-transparent">
+          {Array.isArray(nowPLay) && nowPLay.length > 0 ? (
+            nowPLay.map((film) => (
+              <div key={film.id} className="carousel-item w-full relative">
+                <img
+                  src={`https://image.tmdb.org/t/p/original${film.backdrop_path}`}
+                  alt={`Film Image ${film.title}`}
+                  className="w-full h-full object-cover blur-sm" // Blur effect
+                />
+                <div className="absolute inset-0 bg-black/40 flex flex-col justify-end p-8 text-white"> {/* Overlay with text */}
+                  <h1 className="text-4xl font-bold">{film.title}</h1> {/* Title */}
+                  <p className="mt-2 text-lg">{film.overview}</p> {/* Description */}
+                  <p className="mt-2 text-lg font-semibold">Rating: ✨ {film.vote_average}</p> {/* Rating */}
+                  <button className="mt-4 bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-all">
+                    Watch Now
+                  </button> {/* Watch Now button */}
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No films available at the moment.</p>
+          )}
+        </div>
+      </div>
+
+      {/* Play Now section */}
+      <h1 className="font-bold text-4xl mb-4">Now Playing</h1>
+      <div className="flex overflow-x-scroll gap-5">
+        {Array.isArray(nowPLay) && nowPLay.length > 0 ? (
+          nowPLay.map((film) => (
+            <div className="card bg-base-100 image-full w-96 shadow-xl" key={film.id}>
+              <figure>
+                <img
+                src={`https://image.tmdb.org/t/p/w500${film?.poster_path}`}
+                alt={film?.title || 'Poster'}
+                className="w-full"
+              />
+              </figure>
+              <div className="card-body">
+                <h5 className="card-title font-bold text-xl">{film?.title}</h5>
+                <p className="font-bold text-lg">✨ {film?.vote_average}</p>
+                <div className="card-actions justify-end">
+                  <Link to="/deatil" className="btn btn-primary">toton aja</Link>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No films available at the moment.</p>
+        )}
+      </div>
+
+
+      {/* popular */}
+
+       <h1 className="font-bold text-4xl mb-4">POPULAR!!</h1>
+      <div className="flex overflow-x-scroll gap-5">
+        {Array.isArray(popular) && popular.length > 0 ? (
+          popular.map((film) => (
+            <div className="card bg-base-100 image-full w-96 shadow-xl" key={film.id}>
+              <figure>
+                <img
+                src={`https://image.tmdb.org/t/p/w500${film?.poster_path}`}
+                alt={film?.title || 'Poster'}
+                className="w-full"
+              />
+              </figure>
+              <div className="card-body">
+                <h5 className="card-title font-bold text-xl">{film?.title}</h5>
+                <p className="font-bold text-lg">✨ {film?.vote_average}</p>
+                <div className="card-actions justify-end">
+                  <Link to="/deatil" className="btn btn-primary">toton aja</Link>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No films available at the moment.</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default HomeView;
+
